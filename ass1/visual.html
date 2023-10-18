@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Add CSS styles for your SVG here */
+        text {
+            font-size: 15px;
+            text-anchor: middle;
+            font-family:Arial, Helvetica, sans-serif
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <svg width="1000" height="600" id="svg" xmlns="http://www.w3.org/2000/svg">
+       
+
+        <text x="500" y="50" font-family="CasualFont" font-size="28" font-weight="bold" text-anchor="middle">Monthly Suicides due to Unknown Reasons in 2022 in Turkey</text>
+        <line x1="40" y1="120" x2="40" y2="305" stroke="black" stroke-width="4" />
+        <line x1="40" y1="305" x2="950" y2="305" stroke="black" stroke-width="4"/>
+    </svg>
+
+    <script>
+        const svg = document.getElementById("svg");
+        var y1 = 150;
+        // this loop is for the little ticks in the y-axis line.
+        for (let i = 1; i <= 6; i++) {
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", 35);
+            line.setAttribute("y1", y1);
+            line.setAttribute("x2", 41);
+            line.setAttribute("y2", y1);
+            line.setAttribute("stroke", "black");
+            line.setAttribute("stroke-width", "2");
+            svg.appendChild(line);
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", 25);
+            text.setAttribute("y", y1+4);
+            text.textContent = (7-i)*25;
+            text.style.fontSize="11px";
+            text.style.fontWeight="bold";
+            svg.appendChild(text);
+
+            y1 += 25;
+        }
+        var list = [57,46,92,124,118,126,110,112,109,62,73,80];
+        var x = 80;
+        var months = ["January", "February", "March", "April", "May",
+        "June", "July", "August", "September", "October", "November", "December"];
+        for(let i = 0; i < 12; i++, x+=75) {
+            const deaths = list[i];
+
+            const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect.setAttribute("x", x);
+            rect.setAttribute("y", 300-deaths);
+            rect.setAttribute("width", 40);
+            rect.setAttribute("height", deaths);
+            rect.setAttribute("fill", "red");
+
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", x+20);
+            text.setAttribute("y", 340);
+            text.textContent = months[i];
+
+            const num_text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            num_text.setAttribute("x", x+20);
+            num_text.setAttribute("y", 290-deaths);
+            num_text.setAttribute("transform", "rotate(90 " + (x-4) + " " + (306 - deaths) + ")");
+            num_text.textContent = deaths;
+            num_text.style.fontWeight = "bold";
+
+            // Add dots for each data point
+            const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            dot.setAttribute("cx", x + 20);
+            dot.setAttribute("cy", 300 - deaths);
+            dot.setAttribute("r", 8);
+            dot.setAttribute("fill", "green"); // Set the dot color
+
+            const tick = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            tick.setAttribute("x1", x+20);
+            tick.setAttribute("x2", x+20);
+            tick.setAttribute("y1", 303);
+            tick.setAttribute("y2", 307);
+            tick.setAttribute("stroke", "black");
+            tick.setAttribute("stoke-width", "10");
+
+            
+
+            svg.appendChild(rect);
+            svg.appendChild(text);
+            svg.appendChild(num_text);
+            svg.appendChild(tick);
+            svg.appendChild(dot);
+            if(i!=11) {
+                const line2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line2.setAttribute("x1", x+20);
+                line2.setAttribute("x2", x+95);
+                line2.setAttribute("y1", 300- deaths);
+                line2.setAttribute("y2", 300 - list[i+1]);
+                line2.setAttribute("stroke", "blue");
+                line2.setAttribute("stroke-width", "5");
+                svg.appendChild(line2);
+            }
+        }
+
+    </script>
+</body>
+</html>
